@@ -38,8 +38,6 @@ function createDreamTeam(members) {
   return alphabetize(secretStr);
 }
 
-console.log(createDreamTeam(['Olivia', 1111, '  lily', 'Oscar', true, null]));
-
 module.exports = {
   createDreamTeam
 };
