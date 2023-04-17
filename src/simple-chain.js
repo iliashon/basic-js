@@ -1,3 +1,4 @@
+const { reporters } = require('mocha');
 const { NotImplementedError } = require('../extensions/index.js');
 
 /**
@@ -5,27 +6,35 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 const chainMaker = {
-  getLength() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  arr: [],
+
+  getLength: function() {
+    return this.arr.length;
   },
-  addLink(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  addLink: function(value) {
+    this.arr.push(`( ${value} )`);
+    return this;
   },
-  removeLink(/* position */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  removeLink: function (position) {
+    if (!Number.isInteger(position) || position < 1 || position > this.arr.length) {
+      this.finishChain();
+      throw new Error('You can\'t remove incorrect link!');
+    }
+    this.arr.splice(position - 1, 1);
+    return this
   },
-  reverseChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  reverseChain: function () {
+    this.arr.reverse();
+    return this;
   },
-  finishChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  finishChain: function () {
+    let doneStr = (!this.arr[0]) ? '' : this.arr.join('~~');
+    this.arr.splice(0, this.arr.length);
+    return doneStr;
   }
 };
+
+console.log(chainMaker.addLink(function () { }).addLink('2nd').addLink('3rd').removeLink(2).reverseChain().finishChain())
 
 module.exports = {
   chainMaker
